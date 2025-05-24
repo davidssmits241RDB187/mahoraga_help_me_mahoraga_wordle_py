@@ -1,4 +1,4 @@
-
+from collections import defaultdict
 
 def get_possible_words(guessed_word: str, first_letter: str, second_letter: str, third_letter: str, fourth_letter: str, fifth_letter: str):
     colors_word = [first_letter, second_letter, third_letter, fourth_letter, fifth_letter]
@@ -49,7 +49,7 @@ def get_possible_words(guessed_word: str, first_letter: str, second_letter: str,
 
         if valid:
             filtered_words.append(w)
-
+    filtered_words = sort_words_by_frequency(filtered_words)
     with open("possible_words.txt","w") as f:
         for w in filtered_words:
             f.write(w+"\n")
@@ -67,9 +67,32 @@ def return_to_start_words():
 
     
 
-                
-                
+
+
+
+LETTER_FREQUENCY_ORDER = 'etaoinshrdlcumwfgypbvkjxqz'
+LETTER_RANK = {letter: rank for rank, letter in enumerate(LETTER_FREQUENCY_ORDER)}
+
+def sort_words_by_frequency(words, index=0):
+    if len(words) <= 1 or index >= 5:
+        return words
     
+    
+    groups = defaultdict(list)
+    for word in words:
+        key = word[index] if index < len(word) else ''
+        groups[key].append(word)
+
+   
+    sorted_group_keys = sorted(groups.keys(), key=lambda k: LETTER_RANK.get(k, float('inf')))
+
+    sorted_words = []
+    for key in sorted_group_keys:
+        sorted_words.extend(sort_words_by_frequency(groups[key], index + 1))
+    
+    return sorted_words
+
+
                 
                     
 
