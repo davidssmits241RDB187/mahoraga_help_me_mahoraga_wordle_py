@@ -1,6 +1,6 @@
 import sys
 import os
-from data_service import return_to_start_words, get_possible_words
+from data_service import return_to_start_words, get_possible_words, filter_words_with_two_letters
 def main():
    
     
@@ -9,7 +9,8 @@ def main():
     while True:
         print("Action 1: Enter word with letter colors \n")
         print("Action 2: reset \n")
-        print("Action 3: exit \n")
+        print("Action 3: two hint letters \n")
+        print("Action 4: exit \n")
         c = input("Enter action: ")
         match c:
             case "1":
@@ -25,6 +26,10 @@ def main():
             case "2":
                 return_to_start_words()
             case "3":
+                l1 = input("l1: ")
+                l2 = input("l2: ")
+                print(filter_words_with_two_letters(l1,l2))
+            case "4":
                 sys.exit()
                 
 main()
