@@ -1,5 +1,6 @@
 from collections import defaultdict, Counter
-
+from collections import Counter
+from itertools import permutations
 def get_possible_words(guessed_word: str, first_letter: str, second_letter: str, third_letter: str, fourth_letter: str, fifth_letter: str):
     colors_word = [first_letter, second_letter, third_letter, fourth_letter, fifth_letter]
   
@@ -49,7 +50,7 @@ def get_possible_words(guessed_word: str, first_letter: str, second_letter: str,
     
     # Sort using the new rank
     filtered_words = sort_words_by_frequency(filtered_words, updated_letter_rank)
-
+   
     with open("possible_words.txt", "w") as f:
         for w in filtered_words:
             f.write(w + "\n")
@@ -107,5 +108,33 @@ def filter_words_with_two_letters(letter1, letter2):
     
     return sorted_words
 
+
+
+
+
+
+
+def get_best_unique_letter_word_by_frequency(entered_word: str):
+    with open("words.txt", "r") as f:
+        words = [line.strip() for line in f]
+    with open("guessed_words.txt","r") as f:
+        entered_word+=f.read()
     
+    usable_words =[]
+    
+    for w in words:
+        if any(letter in w for letter in entered_word):
+            continue
+        if len(set(w)) < len(w):
+            continue
+        else:
+            usable_words.append(w)
+    
+    letter_rank = get_dynamic_letter_rank(usable_words)
+    usable_words = sort_words_by_frequency(usable_words,letter_rank)
+    
+    if usable_words[0]:
+        return usable_words[0]
+    return None
+
 
