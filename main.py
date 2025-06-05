@@ -42,7 +42,9 @@ def main():
             case "3":
                 l1 = input("l1: ")
                 l2 = input("l2: ")
-                print(filter_words_with_two_letters(l1,l2))
+                fw = filter_words_with_two_letters(l1,l2)
+                print(fw)
+                print("\nMost probable word: "+fw[0]+"\n")
                 try:
                     
                    ##
@@ -50,7 +52,7 @@ def main():
                         f.write(l1+l2)
                     best_word2 = get_best_unique_letter_word_by_frequency(l1+l2)
                     if best_word2:
-                        print(best_word2+"\n")
+                        print("Most valuable word: "+best_word2+"\n")
                 except Exception as e:
                     print(e)
                 
