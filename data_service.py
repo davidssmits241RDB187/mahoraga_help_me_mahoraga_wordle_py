@@ -115,19 +115,22 @@ def filter_words_with_two_letters(letter1, letter2):
 
 
 def get_best_unique_letter_word_by_frequency(entered_word: str):
+    with open("possible_words.txt", "r") as f:
+        possible_words = [line.strip() for line in f]
     with open("words.txt", "r") as f:
         words = [line.strip() for line in f]
     with open("guessed_words.txt","r") as f:
         entered_word+=f.read()
     
     usable_words =[]
-    
+    entered_word_set = set(entered_word)
+
     for w in words:
-        if any(letter in w for letter in entered_word):
-            continue
         if len(set(w)) < len(w):
             continue
-        else:
+        contains_possible_letters = any(letter in w for word in possible_words for letter in word)
+        does_not_contain_entered_letters = all(letter not in entered_word_set for letter in w)
+        if contains_possible_letters and does_not_contain_entered_letters:
             usable_words.append(w)
     
     letter_rank = get_dynamic_letter_rank(usable_words)
